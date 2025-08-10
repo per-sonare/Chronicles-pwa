@@ -1,40 +1,36 @@
 const storyElem = document.getElementById('story');
+const mapElem = document.getElementById('map');
 const userInput = document.getElementById('userInput');
 const sendBtn = document.getElementById('sendBtn');
-const mapElem = document.getElementById('map');
-
-let step = 0;
-let waitingLocation = false;
 
 function appendStory(text) {
-  const escapedText = text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/\n/g, "<br>");
-  storyElem.innerHTML += escapedText + "<br><br>";
+  storyElem.innerHTML += text.replace(/\n/g, '<br>') + '<br><br>';
   storyElem.scrollTop = storyElem.scrollHeight;
 }
 
-function showMap(location) {
-  const maps = {
-    '学校': '🏫 学校の校庭が広がっています。周りに教室棟や体育館があります。',
-    '街': '🏙️ 賑やかな街並み。商店街やカフェがあります。',
-    '森': '🌲 深い森。鳥のさえずりが聞こえます。'
-  };
-  const locKey = location.trim().toLowerCase();
-  const mapsLower = {};
-  Object.keys(maps).forEach(k => {
-    mapsLower[k.toLowerCase()] = maps[k];
-  });
-  const mapText = mapsLower[locKey] || '未知の場所です。';
-  mapElem.innerHTML = mapText;
+function appendMap(text) {
+  mapElem.innerHTML = text.replace(/\n/g, '<br>');
 }
 
 function startAdventure() {
   appendStory('今日はどんな冒険をはじめますか？');
 }
 
+function handleUserInput() {
+  const input = userInput.value.trim();
+  if (!input) return;
+  appendStory('あなた: ' + input);
+  userInput.value = '';
+}
+
+sendBtn.addEventListener('click', handleUserInput);
+userInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    handleUserInput();
+  }
+});
+
+window.onload = startAdventure;
 function handleUserInput() {
   const input = userInput.value.trim();
   if (!input) return;
