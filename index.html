@@ -4,19 +4,80 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>あなたの旅路 - RPGシミュレーション</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f8f8;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    #app {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #444;
+      margin-bottom: 20px;
+    }
+
+    #map {
+      width: 100%;
+      min-height: 150px;
+      background: #f0f0f0;
+      border: 1px solid #bbb;
+      padding: 15px;
+      margin-bottom: 20px;
+      overflow-y: auto;
+    }
+
+    #story {
+      width: 100%;
+      height: 150px;
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 15px;
+      white-space: pre-wrap;
+      overflow-y: auto;
+      margin-bottom: 15px;
+    }
+
+    #userInput {
+      width: 75%;
+      padding: 10px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    #sendBtn {
+      padding: 10px 20px;
+      font-size: 1em;
+      margin-left: 10px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #sendBtn:hover {
+      background-color: #45a049;
+    }
+  </style>
 </head>
 <body>
   <div id="app">
     <h1>あなたの旅路</h1>
-    <div id="map" style="border:1px solid #ccc; padding:10px; margin-bottom:10px; min-height:100px;">
-      <!-- 地図表示エリア -->
-    </div>
+    <div id="map"></div>
     <div id="story"></div>
     <input type="text" id="userInput" placeholder="行動を入力..." />
     <button id="sendBtn">送信</button>
   </div>
+
   <script src="main.js"></script>
 </body>
-</html>
+  </html>
