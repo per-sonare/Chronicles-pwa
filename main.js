@@ -5,8 +5,13 @@ const sendBtn = document.getElementById('sendBtn');
 let step = 0;
 
 function appendStory(text) {
-  // 改行を<br>に変換しHTMLに追加
-  storyElem.innerHTML += text.replace(/\n/g, '<br>') + '<br>';
+  // テキストを安全にHTMLに変換しつつ、改行は<br>に変換する関数
+  const escapedText = text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\n/g, "<br>");
+  storyElem.innerHTML += escapedText + "<br>";
   storyElem.scrollTop = storyElem.scrollHeight;
 }
 
@@ -17,11 +22,12 @@ function startAdventure() {
 function handleUserInput() {
   const input = userInput.value.trim();
   if (!input) return;
+
   appendStory('あなた: ' + input);
   userInput.value = '';
-
   step++;
 
+  // AI応答文（「AI:」表記なしで自然な感じに）
   switch (step) {
     case 1:
       appendStory('いいですね！あなたのお名前は？');
@@ -35,6 +41,15 @@ function handleUserInput() {
     default:
       appendStory('なるほど...では続きを進めます。');
       break;
+  }
+}
+
+sendBtn.addEventListener('click', handleUserInput);
+userInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleUserInput();
+});
+
+window.onload = startAdventure;      break;
   }
 }
 
