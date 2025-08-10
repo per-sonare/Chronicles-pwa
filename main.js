@@ -1,4 +1,4 @@
-const apiUrl = "https://your-project.vercel.app/api/story";  // デプロイ先URLに書き換えてください
+const apiUrl = "https://chronicles-pwa.vercel.app/api/story";  // あなたのVercelデプロイURLに書き換え済み
 
 const mapDiv = document.getElementById("map");
 const storyDiv = document.getElementById("story");
