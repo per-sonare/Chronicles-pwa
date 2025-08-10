@@ -6,26 +6,21 @@ const userInput = document.getElementById('userInput');
 const sendBtn = document.getElementById('sendBtn');
 
 function appendStory(text) {
-  console.log('appendStory:', text);
-  storyElem.innerHTML += text.replace(/\n/g, '<br>') + '<br><br>';
+  storyElem.innerHTML += text + '<br><br>';
   storyElem.scrollTop = storyElem.scrollHeight;
 }
 
-function appendMap(text) {
-  console.log('appendMap:', text);
-  mapElem.innerHTML = text.replace(/\n/g, '<br>');
-}
-
 function startAdventure() {
-  console.log('startAdventure called');
   appendStory('今日はどんな冒険をはじめますか？');
-  appendMap('地図はまだありません。');
 }
 
 function handleUserInput() {
   const input = userInput.value.trim();
-  console.log('handleUserInput input:', input);
-  if (!input) return;
+  console.log('Input:', input);
+  if (!input) {
+    console.log('入力が空です');
+    return;
+  }
   appendStory('あなた: ' + input);
   userInput.value = '';
 }
