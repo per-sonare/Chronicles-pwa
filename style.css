@@ -7,7 +7,7 @@ body {
 }
 
 #app {
-  max-width: 600px; /* 幅を少し狭め */
+  max-width: 600px;
   margin: auto;
 }
 
@@ -19,7 +19,7 @@ h1 {
 
 #map {
   width: 100%;
-  min-height: 150px; /* 地図の高さ */
+  min-height: 150px;
   background: #f0f0f0;
   border: 1px solid #bbb;
   padding: 15px;
@@ -29,12 +29,37 @@ h1 {
 
 #story {
   width: 100%;
-  height: 150px;  /* 本文領域を半分の高さに */
+  height: 150px;
   background: #fff;
   border: 1px solid #ddd;
   padding: 15px;
   white-space: pre-wrap;
   overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+#userInput {
+  width: 75%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#sendBtn {
+  padding: 10px 20px;
+  font-size: 1em;
+  margin-left: 10px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#sendBtn:hover {
+  background-color: #45a049;
+}  overflow-y: auto;
   margin-bottom: 15px;
 }
 
