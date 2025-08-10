@@ -4,7 +4,7 @@ const sendBtn = document.getElementById('sendBtn');
 const mapElem = document.getElementById('map');
 
 let step = 0;
-let waitingLocation = false; // 追加
+let waitingLocation = false;
 
 function appendStory(text) {
   const escapedText = text
@@ -22,7 +22,13 @@ function showMap(location) {
     '街': '🏙️ 賑やかな街並み。商店街やカフェがあります。',
     '森': '🌲 深い森。鳥のさえずりが聞こえます。'
   };
-  mapElem.innerHTML = maps[location] || '未知の場所です。';
+  const locKey = location.trim().toLowerCase();
+  const mapsLower = {};
+  Object.keys(maps).forEach(k => {
+    mapsLower[k.toLowerCase()] = maps[k];
+  });
+  const mapText = mapsLower[locKey] || '未知の場所です。';
+  mapElem.innerHTML = mapText;
 }
 
 function startAdventure() {
@@ -35,6 +41,47 @@ function handleUserInput() {
 
   appendStory('あなた: ' + input);
   userInput.value = '';
+
+  if (waitingLocation) {
+    showMap(input);
+    appendStory(input + 'に向かいます。');
+    waitingLocation = false;
+    return;
+  }
+
+  step++;
+
+  switch (step) {
+    case 1:
+      appendStory('いいですね！あなたのお名前は？');
+      break;
+    case 2:
+      appendStory('性別は？（答えたくなければスキップ可）');
+      break;
+    case 3:
+      appendStory('冒険をはじめましょう！地図は必要ですか？（はい/いいえ）');
+      break;
+    case 4:
+      if (input === 'はい' || input.toLowerCase() === 'yes') {
+        appendStory('どこに行きますか？（学校、街、森など）');
+        waitingLocation = true;
+      } else {
+        appendStory('地図なしで冒険を続けます。');
+        mapElem.innerHTML = '';
+      }
+      break;
+    default:
+      appendStory('なるほど...では続きを進めます。');
+      break;
+  }
+}
+
+sendBtn.addEventListener('click', handleUserInput);
+userInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleUserInput();
+});
+
+window.onload = startAdventure;  userInput.value = '';
 
   if (waitingLocation) {
     showMap(input);
