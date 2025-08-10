@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>動作確認テスト</title>
+</head>
+<body>
+  <input id="userInput" type="text" placeholder="入力してください" />
+  <button id="sendBtn">送信</button>
+
+  <script>
+    const sendBtn = document.getElementById('sendBtn');
+    const userInput = document.getElementById('userInput');
+
+    sendBtn.addEventListener('click', () => {
+      const val = userInput.value.trim();
+      console.log('Button clicked! Input:', val);
+      alert('入力: ' + val);
+    });
+  </script>
+</body>
+</html>
