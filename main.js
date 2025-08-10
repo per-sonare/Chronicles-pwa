@@ -1,4 +1,3 @@
-// ここはVercelのあなたのデプロイURLに置き換えてください
 const apiUrl = "https://chronicles-pwa.vercel.app/api/story";
 
 const mapDiv = document.getElementById("map");
