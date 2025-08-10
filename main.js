@@ -24,7 +24,18 @@ function handleUserInput() {
 
   switch (step) {
     case 1:
-      appendStory('いいですね！あなたのお名前は？');  }
+      appendStory('いいですね！あなたのお名前は？');
+      break;
+    case 2:
+      appendStory('性別は？（答えたくなければスキップ可）');
+      break;
+    case 3:
+      appendStory('冒険をはじめましょう！地図は必要ですか？');
+      break;
+    default:
+      appendStory('なるほど...では続きを進めます。');
+      break;
+  }
 }
 
 sendBtn.addEventListener('click', handleUserInput);
