@@ -1,28 +1,51 @@
-const mapEl = document.getElementById("map");
-const storyEl = document.getElementById("story");
-const inputEl = document.getElementById("userInput");
-const sendBtn = document.getElementById("sendBtn");
+document.getElementById('sendBtn').addEventListener('click', () => {
+  const input = document.getElementById('userInput');
+  const action = input.value.trim();
+  if (!action) return alert('行動を入力してください');
 
-// 初期表示
-mapEl.textContent = "現在地: 小さな村\n北には森が広がっている。";
-storyEl.textContent = "あなたは村の中央に立っています。どこへ行きますか？";
-
-// 送信処理
-sendBtn.addEventListener("click", () => {
-  const action = inputEl.value.trim();
-  if (!action) return;
-
-  storyEl.textContent += `\n\n> ${action}`;
-
-  if (action.includes("森")) {
-    mapEl.textContent = "現在地: 森の入り口\n薄暗く静かな森が広がっている。";
-    storyEl.textContent += "\nあなたは森へ足を踏み入れました。";
-  } else if (action.includes("村")) {
-    mapEl.textContent = "現在地: 村の中央\n人々が行き交っている。";
-    storyEl.textContent += "\nあなたは村に戻りました。";
-  } else {
-    storyEl.textContent += "\nその行動はよくわかりません。";
-  }
-
-  inputEl.value = "";
+  sendAction(action);
+  input.value = '';
 });
+
+async function sendAction(action) {
+  const mapDiv = document.getElementById('map');
+  const storyDiv = document.getElementById('story');
+
+  // 送信中は入力禁止＆ボタン無効化
+  document.getElementById('userInput').disabled = true;
+  document.getElementById('sendBtn').disabled = true;
+
+  try {
+    const response = await fetch('/api/story', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action })
+    });
+
+    if (!response.ok) {
+      alert('通信エラーが発生しました');
+      return;
+    }
+
+    const data = await response.json();
+
+    if (data.map) {
+      mapDiv.textContent = data.map;
+    } else {
+      mapDiv.textContent = "地図情報が取得できませんでした。";
+    }
+
+    if (data.story) {
+      storyDiv.textContent = data.story;
+    } else {
+      storyDiv.textContent = "物語情報が取得できませんでした。";
+    }
+  } catch (e) {
+    alert('通信中にエラーが発生しました');
+    console.error(e);
+  } finally {
+    document.getElementById('userInput').disabled = false;
+    document.getElementById('sendBtn').disabled = false;
+    document.getElementById('userInput').focus();
+  }
+        }
