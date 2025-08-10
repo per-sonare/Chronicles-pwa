@@ -4,6 +4,7 @@ const sendBtn = document.getElementById('sendBtn');
 const mapElem = document.getElementById('map');
 
 let step = 0;
+let waitingLocation = false; // 追加
 
 function appendStory(text) {
   const escapedText = text
@@ -11,7 +12,7 @@ function appendStory(text) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/\n/g, "<br>");
-  storyElem.innerHTML += escapedText + "<br><br>"; // 改行2回で行間を空ける
+  storyElem.innerHTML += escapedText + "<br><br>";
   storyElem.scrollTop = storyElem.scrollHeight;
 }
 
@@ -34,7 +35,47 @@ function handleUserInput() {
 
   appendStory('あなた: ' + input);
   userInput.value = '';
+
+  if (waitingLocation) {
+    showMap(input);
+    appendStory(input + 'に向かいます。');
+    waitingLocation = false;
+    return;
+  }
+
   step++;
+
+  switch (step) {
+    case 1:
+      appendStory('いいですね！あなたのお名前は？');
+      break;
+    case 2:
+      appendStory('性別は？（答えたくなければスキップ可）');
+      break;
+    case 3:
+      appendStory('冒険をはじめましょう！地図は必要ですか？（はい/いいえ）');
+      break;
+    case 4:
+      if (input === 'はい' || input === 'Yes') {
+        appendStory('どこに行きますか？（学校、街、森など）');
+        waitingLocation = true;
+      } else {
+        appendStory('地図なしで冒険を続けます。');
+        mapElem.innerHTML = '';
+      }
+      break;
+    default:
+      appendStory('なるほど...では続きを進めます。');
+      break;
+  }
+}
+
+sendBtn.addEventListener('click', handleUserInput);
+userInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleUserInput();
+});
+
+window.onload = startAdventure;  step++;
 
   switch (step) {
     case 1:
