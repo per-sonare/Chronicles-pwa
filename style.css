@@ -7,8 +7,9 @@ body {
 }
 
 #app {
-  max-width: 600px;
+  max-width: 500px;
   margin: auto;
+  display: block; /* 横並びしないように */
 }
 
 h1 {
@@ -17,25 +18,27 @@ h1 {
   margin-bottom: 20px;
 }
 
-#map {
+#map, #story {
   width: 100%;
   min-height: 150px;
-  background: #f0f0f0;
+  background: #fff;
   border: 1px solid #bbb;
   padding: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  white-space: pre-wrap;
   overflow-y: auto;
+  border-radius: 6px;
+}
+
+#map {
+  background-color: #e8f0fe;
+  border-color: #bbb;
 }
 
 #story {
-  width: 100%;
-  height: 150px;
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 15px;
-  white-space: pre-wrap;
-  overflow-y: auto;
-  margin-bottom: 15px;
+  background-color: #ffffff;
+  border-color: #ccc;
 }
 
 #userInput {
@@ -44,6 +47,7 @@ h1 {
   font-size: 1em;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
 #sendBtn {
@@ -59,4 +63,4 @@ h1 {
 
 #sendBtn:hover {
   background-color: #45a049;
-}
+  }
