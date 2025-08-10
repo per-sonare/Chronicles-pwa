@@ -5,7 +5,8 @@ const sendBtn = document.getElementById('sendBtn');
 let step = 0;
 
 function appendStory(text) {
-  storyElem.textContent += text + '\\n';
+  // 改行を<br>に変換しHTMLに追加
+  storyElem.innerHTML += text.replace(/\n/g, '<br>') + '<br>';
   storyElem.scrollTop = storyElem.scrollHeight;
 }
 
@@ -23,18 +24,7 @@ function handleUserInput() {
 
   switch (step) {
     case 1:
-      appendStory('AI: いいですね！あなたのお名前は？');
-      break;
-    case 2:
-      appendStory('AI: 性別は？（答えたくなければスキップ可）');
-      break;
-    case 3:
-      appendStory('AI: 冒険をはじめましょう！地図は必要ですか？');
-      break;
-    default:
-      appendStory('AI: なるほど...では続きを進めます。');
-      break;
-  }
+      appendStory('いいですね！あなたのお名前は？');  }
 }
 
 sendBtn.addEventListener('click', handleUserInput);
