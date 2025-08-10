@@ -2,37 +2,40 @@
 import { Configuration, OpenAIApi } from "openai";
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY, // Vercelの環境変数に登録したAPIキーを読み込み
+  apiKey: process.env.OPENAI_API_KEY, // Vercelの環境変数に設定したAPIキーを使用
 });
+
 const openai = new OpenAIApi(configuration);
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
-    return res.status(405).json({ error: "Method not allowed" });
+    res.setHeader("Allow", ["POST"]);
+    return res.status(405).json({ error: "Method Not Allowed" });
   }
 
   try {
     const { action } = req.body;
-    if (!action || action.trim() === "") {
+
+    if (!action || typeof action !== "string" || action.trim() === "") {
       return res.status(400).json({ error: "Missing or empty 'action' parameter" });
     }
 
-    // ChatCompletion API呼び出し
+    // ChatCompletion API 呼び出し
     const completion = await openai.createChatCompletion({
-      model: "gpt-4o-mini",
+      model: "gpt-4o-mini", // 必要に応じてモデル名を調整してください
       messages: [
         { role: "system", content: "あなたはテキストRPGの進行役です。" },
         { role: "user", content: action },
       ],
+      max_tokens: 500,       // 必要に応じて調整してください
+      temperature: 0.7,      // 創造性の度合い（0〜1）
     });
 
     const story = completion.data.choices[0].message.content;
 
-    // レスポンスに物語と地図を返す（地図は必要に応じて変更してください）
     res.status(200).json({
       story,
-      map: "ここにASCII地図が表示されます。",
+      map: "ここにASCII地図が表示されます。",  // 必要なら実装を変更してください
     });
   } catch (error) {
     console.error("OpenAI API error:", error);
