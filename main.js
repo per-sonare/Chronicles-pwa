@@ -1,51 +1,70 @@
-document.getElementById('sendBtn').addEventListener('click', () => {
-  const input = document.getElementById('userInput');
-  const action = input.value.trim();
-  if (!action) return alert('行動を入力してください');
+const apiUrl = "https://your-project.vercel.app/api/story";  // デプロイ先URLに書き換えてください
 
-  sendAction(action);
-  input.value = '';
-});
+const mapDiv = document.getElementById("map");
+const storyDiv = document.getElementById("story");
+const userInput = document.getElementById("userInput");
+const sendBtn = document.getElementById("sendBtn");
+
+function appendStory(text) {
+  storyDiv.textContent += text + "\n\n";
+  storyDiv.scrollTop = storyDiv.scrollHeight;
+}
+
+function appendMap(text) {
+  mapDiv.textContent = text;
+}
 
 async function sendAction(action) {
-  const mapDiv = document.getElementById('map');
-  const storyDiv = document.getElementById('story');
+  if (!action.trim()) {
+    appendStory("入力が空です。何か入力してください。");
+    return;
+  }
 
-  // 送信中は入力禁止＆ボタン無効化
-  document.getElementById('userInput').disabled = true;
-  document.getElementById('sendBtn').disabled = true;
+  appendStory(`あなた: ${action}`);
 
   try {
-    const response = await fetch('/api/story', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({ action })
     });
 
-    if (!response.ok) {
-      alert('通信エラーが発生しました');
+    if (!res.ok) {
+      appendStory(`サーバーエラー: ${res.status} ${res.statusText}`);
       return;
     }
 
-    const data = await response.json();
+    const data = await res.json();
 
-    if (data.map) {
-      mapDiv.textContent = data.map;
-    } else {
-      mapDiv.textContent = "地図情報が取得できませんでした。";
+    if (data.error) {
+      appendStory(`エラー: ${data.error}`);
+      return;
     }
 
-    if (data.story) {
-      storyDiv.textContent = data.story;
-    } else {
-      storyDiv.textContent = "物語情報が取得できませんでした。";
-    }
-  } catch (e) {
-    alert('通信中にエラーが発生しました');
-    console.error(e);
-  } finally {
-    document.getElementById('userInput').disabled = false;
-    document.getElementById('sendBtn').disabled = false;
-    document.getElementById('userInput').focus();
+    if (data.story) appendStory(data.story);
+    if (data.map) appendMap(data.map);
+
+  } catch (error) {
+    appendStory(`通信エラーが発生しました: ${error.message}`);
   }
-        }
+}
+
+sendBtn.addEventListener("click", () => {
+  const action = userInput.value;
+  sendAction(action);
+  userInput.value = "";
+});
+
+userInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    sendBtn.click();
+  }
+});
+
+// 最初のメッセージ表示
+window.onload = () => {
+  appendStory("ようこそ、あなたの旅路へ！ どんな冒険を始めますか？");
+  appendMap("ここに地図が表示されます。");
+};
