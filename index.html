@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>あなたの旅路 - RPGシミュレーション</title>
 <style>
   body {
@@ -14,7 +14,7 @@
   }
 
   #app {
-    max-width: 600px;
+    max-width: 500px;
     margin: auto;
   }
 
@@ -24,25 +24,21 @@
     margin-bottom: 20px;
   }
 
-  #map {
+  #map, #story {
     width: 100%;
-    min-height: 150px;
-    background: #f0f0f0;
+    background: #fff;
     border: 1px solid #bbb;
     padding: 15px;
-    margin-bottom: 20px;
+    box-sizing: border-box;
     overflow-y: auto;
+    white-space: pre-wrap;
+    margin-bottom: 15px;
+    min-height: 150px;
+    border-radius: 6px;
   }
 
-  #story {
-    width: 100%;
-    height: 150px;
-    background: #fff;
-    border: 1px solid #ddd;
-    padding: 15px;
-    white-space: pre-wrap;
-    overflow-y: auto;
-    margin-bottom: 15px;
+  #map {
+    background-color: #f0f0f0;
   }
 
   #userInput {
@@ -51,6 +47,7 @@
     font-size: 1em;
     border: 1px solid #ccc;
     border-radius: 4px;
+    box-sizing: border-box;
   }
 
   #sendBtn {
