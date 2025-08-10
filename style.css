@@ -7,22 +7,34 @@ body {
 }
 
 #app {
-  max-width: 600px;
+  max-width: 900px;
   margin: auto;
+  display: flex;
+  gap: 20px;
 }
 
 h1 {
   text-align: center;
   color: #444;
+  width: 100%;
 }
 
 #story {
+  flex: 1 1 50%;
   min-height: 300px;
   background: #fff;
   border: 1px solid #ddd;
   padding: 15px;
-  margin-bottom: 10px;
-  white-space: pre-wrap;  /* ここを追加 */
+  white-space: pre-wrap;
+  overflow-y: auto;
+}
+
+#map {
+  flex: 1 1 50%;
+  min-height: 300px;
+  background: #f0f0f0;
+  border: 1px solid #bbb;
+  padding: 15px;
   overflow-y: auto;
 }
 
@@ -35,6 +47,19 @@ h1 {
 }
 
 #sendBtn {
+  padding: 10px 20px;
+  font-size: 1em;
+  margin-left: 10px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#sendBtn:hover {
+  background-color: #45a049;
+}#sendBtn {
   padding: 10px 20px;
   font-size: 1em;
   margin-left: 10px;
