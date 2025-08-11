@@ -1,9 +1,9 @@
-import { Configuration, OpenAIApi } from "openai";
+// pages/api/story.js
+import OpenAI from "openai";
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY, // Vercel の Environment Variables に設定
 });
-const openai = new OpenAIApi(configuration);
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -19,7 +19,8 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Missing or empty 'action' parameter" });
     }
 
-    const completion = await openai.createChatCompletion({
+    // OpenAI Chat API 呼び出し
+    const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         { role: "system", content: "あなたはテキストRPGの進行役です。" },
@@ -31,7 +32,7 @@ export default async function handler(req, res) {
 
     console.log("OpenAI response received");
 
-    const story = completion.data.choices[0].message.content;
+    const story = completion.choices[0].message.content;
 
     return res.status(200).json({
       story,
